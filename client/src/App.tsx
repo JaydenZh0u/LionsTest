@@ -44,11 +44,6 @@ export default function App() {
                         <Route path="login" element={<LoginPage />} />
                         <Route path="register" element={<RegisterPage />} />
                     </Route>
-                    <Route element={<AppLayout />}>
-                        <Route path="lists" element={<ListsPage />} />
-                        <Route path="lists/:id" element={<ListPage />} />
-                        <Route path="account" element={<AccountPage />} />
-                    </Route>
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>
                 <ModalLayer />
