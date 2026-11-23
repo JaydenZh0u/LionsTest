@@ -29,31 +29,3 @@ CREATE TABLE users (
     avatar_updated_at  timestamptz,
     created_at         timestamptz NOT NULL DEFAULT now()
 );
-
-CREATE TABLE lists (
-    id          uuid        PRIMARY KEY DEFAULT gen_random_uuid(),
-    owner_id    uuid        NOT NULL REFERENCES users (id) ON DELETE CASCADE,
-    name        text        NOT NULL CHECK (length(trim(name)) BETWEEN 1 AND 60),
-    -- where the list sits on its owner's home screen, lowest first
-    position    integer     NOT NULL,
-    created_at  timestamptz NOT NULL DEFAULT now(),
-    updated_at  timestamptz NOT NULL DEFAULT now()
-);
-
--- every query asks for one owner's lists, so this makes that fast
-CREATE INDEX lists_owner_id_index ON lists (owner_id);
-
-CREATE TABLE items (
-    list_id       uuid    NOT NULL REFERENCES lists (id) ON DELETE CASCADE,
-    -- made by the client (i.e. item-6f1c...), so it is text, not a uuid
-    id            text    NOT NULL,
-    -- where the item sits in its list, from 0
-    position      integer NOT NULL,
-    description   text    NOT NULL CHECK (length(trim(description)) BETWEEN 1 AND 200),
-    date_entered  date    NOT NULL,
-    -- priority, target_date and completed are added by 002_add_item_details.sql
-
-    -- an item id only has to be unique within its own list
-    PRIMARY KEY (list_id, id),
-    UNIQUE (list_id, position)
-);
