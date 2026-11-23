@@ -22,7 +22,6 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import authRoutes from './routes/authRoutes';
-import listRoutes from './routes/listRoutes';
 import userRoutes from './routes/userRoutes';
 import { requestLogger } from './middleware/requestLogger';
 import { errorHandler, notFound } from './middleware/errorHandlers';
@@ -37,7 +36,6 @@ export function createApp({ logRequests = true } = {}) {
     app.use('/api/auth', authRoutes);
 
     app.use('/api/users', userRoutes);
-    app.use('/api/lists', listRoutes);
 
     app.use(notFound);
     app.use(errorHandler);
