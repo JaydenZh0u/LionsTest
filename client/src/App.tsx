@@ -31,8 +31,6 @@ import AppLayout from '@/layouts/AppLayout';
 import SplashPage from '@/pages/SplashPage';
 import LoginPage from '@/pages/LoginPage';
 import RegisterPage from '@/pages/RegisterPage';
-import ListsPage from '@/pages/ListsPage';
-import ListPage from '@/pages/ListPage';
 import AccountPage from '@/pages/AccountPage';
 import NotFoundPage from '@/pages/NotFoundPage';
 
