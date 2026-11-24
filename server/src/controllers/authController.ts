@@ -6,7 +6,7 @@
  * it away.
  */
 import type { Request, Response } from 'express';
-import { MIN_PASSWORD_LENGTH, type UserDTO } from '@wolfie-lists/shared';
+import {type UserDTO } from '@wolfie-lists/shared';
 import { query } from '../db';
 import { toUserJSON, USER_COLUMNS, type UserRow } from '../dto/userDTO';
 import { hashPassword } from '../auth/passwords';
@@ -23,9 +23,6 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export async function register(req: Request, res: Response<UserDTO>) {
     const { email, password } = readCredentials(req.body);
     if (!EMAIL.test(email)) throw new HttpError(400, 'That is not an email address.');
-    if (password.length < MIN_PASSWORD_LENGTH) {
-        throw new HttpError(400, `A password must be at least ${MIN_PASSWORD_LENGTH} characters long.`);
-    }
     if ((await query('SELECT 1 FROM users WHERE email = $1', [email])).length > 0) {
         throw new HttpError(409, 'There is already an account with that email address.');
     }
